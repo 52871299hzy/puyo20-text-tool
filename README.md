@@ -4,4 +4,6 @@ It's mainly based on [nickworonekin/puyo-text-editor](//github.com/nickworonekin
 
 `mtxdecoder.cpp` decodes MTX file into json.
 `a.py` deals with image stuff.
-`fntmaker.cpp` actually makes both the FNT file and MTX file from json ~~(I wrote a crappy implemention to decode json)~~. 
+`fntmaker.cpp` actually makes both the FNT file and MTX file from json.
+
+This thing is too crappy. Planning to rewrite it (maybe in python).
