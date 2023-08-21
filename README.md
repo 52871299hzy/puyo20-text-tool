@@ -11,4 +11,4 @@ Features to (re-)implement:
 - [ ] Extract text from game files
 - [ ] Support non-square characters
 - [ ] Fix bounding box inconsistancy across different fonts
-- [ ] More commandline arguments 
+- [ ] More commandline arguments
