@@ -11,6 +11,6 @@ Currently under refactoring.
 
 Features to (re-)implement:
 
-- [ ] Support non-square characters
+- [X] Support non-square characters
 - [ ] Fix bounding box inconsistancy across different fonts
 - [ ] More commandline arguments

@@ -7,6 +7,14 @@ import re
 from PIL import Image, ImageDraw, ImageFont
 import subprocess
 
+FONT_FILE='./NotoSansCJK-Medium.ttc'
+
+# 22x22 is default for Wii version
+GRID_HEIGHT=22
+GRID_WIDTH=22
+
+FONT_SIZE=22
+
 
 def cut(x, l):
     A = []
@@ -21,21 +29,21 @@ def cut(x, l):
 # Builds image for fnt file. Currently only supports square characters.
 
 
-def build_image(filename, data, size):
-    words = 512 // size
+def build_image(filename, data):
+    words = 512 // GRID_WIDTH
     Data = cut(data, words)
     Line = len(data) // words + 1
-    Length = 2 ** math.ceil(math.log(Line * size, 2))
+    Length = 2 ** math.ceil(math.log(Line * GRID_HEIGHT, 2))
     image = Image.new(mode='RGBA', size=(512, Length))
     draw = ImageDraw.Draw(im=image)
     for i in range(Line):
         for j in range(len(Data[i])):
             text = Data[i][j]
-            font = ImageFont.truetype('./SourceHanSansCN-Regular.otf', size)
+            font = ImageFont.truetype(FONT_FILE, FONT_SIZE)
             # bbox = draw.textbbox((0, 0), text, font=font)
-            draw.text(xy=(size * j, size * i - 8), anchor='la',
+            draw.text(xy=(GRID_WIDTH * j, GRID_HEIGHT * i - 8), anchor='la',
                       text=text, fill='#FFFFFF', font=font)
-            # The ascender is 8 pixels higher than actual top.
+            # SOMETIMES the ascender is 8 pixels higher than actual top.
             # However if I use anchor "lt" some characters will become weird.
             # Such as "一", it will become "▔".
             # And it seems that this only applies to some fonts (Noto Sans CJK Medium in my case).
@@ -60,12 +68,12 @@ def build_charmap(text):
     return charmap
 
 
-def build_fnt(filename, charlist, imgfilename, size=22):
-    font = ImageFont.truetype('./SourceHanSansCN-Regular.otf', size)
+def build_fnt(filename, charlist, imgfilename):
+    font = ImageFont.truetype(FONT_FILE, FONT_SIZE)
     with open(filename, 'wb') as f:
         f.write(b'FNT\x00')
-        f.write((20).to_bytes(4, 'little'))
-        f.write((21).to_bytes(4, 'little'))
+        f.write((GRID_HEIGHT-2).to_bytes(4, 'little'))
+        f.write((GRID_WIDTH-1).to_bytes(4, 'little'))
         f.write(len(charlist).to_bytes(4, 'little'))
         for ch in charlist:
             f.write(ch.encode('utf-16le'))
@@ -143,7 +151,7 @@ def main():
 
     charmap = build_charmap(text)
 
-    build_image('tmp.png', list(charmap), 22)
+    build_image('tmp.png', list(charmap))
 
     build_fnt(sys.argv[2], list(charmap), 'tmp.png')
 
