@@ -1,7 +1,7 @@
 # puyo20-text-tool
 
 Tools to extract/build font files and text files for translating Wii game Puyo Puyo 20th anniversary.
-It's mainly based on [nickworonekin/puyo-text-editor](//github.com/nickworonekin/puyo-text-editor).
+Info about file formats is from [nickworonekin/puyo-text-editor](//github.com/nickworonekin/puyo-text-editor).
 
 Currently under refactoring.
 
